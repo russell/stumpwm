@@ -1,6 +1,8 @@
 language: lisp
 
 env:
+  global:
+    - CIM_HOME="$HOME/.cim"
   matrix:
     - LISP=sbcl
     - LISP=ccl
@@ -13,11 +15,9 @@ install:
     then
       ./install.sh;
     else
-      curl https://raw.githubusercontent.com/luismbo/cl-travis/master/install.sh | sh;
+      curl https://raw.githubusercontent.com/luismbo/cl-travis/develop/install.sh | sh;
     fi
-
-  - echo "(load \"/home/travis/asdf\")" > "$HOME/.clisprc.lisp"
-  - cl -l clx -l cl-ppcre -e '(ql-util:without-prompting (ql:add-to-init-file))'
+  - cl -l clx -l cl-ppcre -Q
 
 before_script:
   - ./autogen.sh
