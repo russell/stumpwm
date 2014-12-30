@@ -11,17 +11,13 @@ env:
 
 install:
   - sudo apt-get install texinfo
-  - if [ -x ./install.sh ] && head -2 ./install.sh | grep '^#cl-travis' > /dev/null;
-    then
-      ./install.sh;
-    else
-      curl https://raw.githubusercontent.com/luismbo/cl-travis/develop/install.sh | sh;
-    fi
+  - curl https://raw.githubusercontent.com/luismbo/cl-travis/master/install.sh | sh;
   - cl -l clx -l cl-ppcre -Q
+  - ln -s $HOME/.cim/config/current.* $HOME/.cim/config/current.sentinel
 
 before_script:
   - ./autogen.sh
-  - ./configure
+  - PATH="$HOME/.cim/scripts:$PATH" ./configure
 
 script:
-  - make
+  - CIM_ID="sentinel" PATH="$HOME/.cim/bin:$PATH" make
